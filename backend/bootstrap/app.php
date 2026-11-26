@@ -2,7 +2,10 @@
 
 declare(strict_types=1);
 
+use App\Exceptions\RecordingUnavailableException;
 use App\Http\Middleware\EnsureUserIsActive;
+use App\Http\Middleware\EnsureWriteActionsEnabled;
+use App\Http\Middleware\VerifyWebhookSource;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -26,7 +29,13 @@ return Application::configure(basePath: dirname(__DIR__))
         // Requests arrive through Caddy (production) or the Next dev proxy.
         $middleware->trustProxies(at: '*');
         $middleware->statefulApi();
-        $middleware->alias(['active' => EnsureUserIsActive::class]);
+        $middleware->validateCsrfTokens(except: ['webhook/*']);
+        $middleware->redirectGuestsTo(fn () => '/login');
+        $middleware->alias([
+            'active' => EnsureUserIsActive::class,
+            'write.enabled' => EnsureWriteActionsEnabled::class,
+            'webhook.verify' => VerifyWebhookSource::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->shouldRenderJsonWhen(
@@ -52,6 +61,10 @@ return Application::configure(basePath: dirname(__DIR__))
 
         $exceptions->render(fn (ThrottleRequestsException $e, Request $request) => $request->is('api/*')
             ? $json('Terlalu banyak permintaan. Coba lagi sebentar.', 'too_many_requests', 429)
+            : null);
+
+        $exceptions->render(fn (RecordingUnavailableException $e, Request $request) => $request->is('api/*') || $request->expectsJson()
+            ? $json($e->getMessage(), 'stream_unavailable', 503)
             : null);
 
         $exceptions->render(fn (ValidationException $e, Request $request) => $request->is('api/*')

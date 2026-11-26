@@ -1,2 +1,5 @@
 backups/
 .env
+go2rtc/go2rtc
+go2rtc/ffmpeg
+go2rtc/go2rtc.runtime.yaml

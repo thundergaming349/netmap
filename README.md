@@ -66,7 +66,7 @@ Semua aturan kode ada di [`rules/`](rules/README.md): overview, design, componen
 - [x] Aturan pengerjaan — `rules/`
 - [x] Scaffold project (`backend/`, `frontend/`, `infra/`)
 - [x] Login Google allowlist + peran + halaman Pengguna & akses + login darurat + audit log
-- [ ] Tahap 1 lanjutan: koneksi MikroTik, jalur, Peta IP, Perangkat, Route — lihat [roadmap](docs/07-roadmap.md)
+- [x] Tahap 1–4: Koneksi MikroTik, Jalur, Peta IP, Perangkat & Reservasi, Route & Trace, Deteksi Konflik & Notifikasi, Live CCTV, Aksi Tulis MikroTik & Backup — lihat [roadmap](docs/07-roadmap.md)
 
 ---
 

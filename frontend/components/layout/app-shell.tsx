@@ -1,5 +1,6 @@
 "use client";
 
+import { useQueryClient } from "@tanstack/react-query";
 import { Menu } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -7,6 +8,7 @@ import { NetmapLogo } from "@/components/common/netmap-logo";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTitle } from "@/components/ui/sheet";
 import { Skeleton } from "@/components/ui/skeleton";
+import { clearCctvClientCache } from "@/hooks/use-cctv";
 import { useMe } from "@/hooks/use-me";
 import { ApiError } from "@/lib/api";
 import { AppSidebar, SidebarNav } from "./app-sidebar";
@@ -17,11 +19,19 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const me = useMe();
   const pathname = usePathname();
   const router = useRouter();
+  const queryClient = useQueryClient();
   const [menuOpen, setMenuOpen] = useState(false);
 
   const item = itemForPath(pathname);
   const allowed =
     me.data !== undefined && (item === undefined || me.data.permissions.includes(item.permission));
+
+  // Purge all client-side CCTV data whenever the user is not on the Live CCTV page.
+  useEffect(() => {
+    if (!pathname.startsWith("/cctv")) {
+      clearCctvClientCache(queryClient);
+    }
+  }, [pathname, queryClient]);
 
   // e.g. a CCTV viewer opening "/" lands on their own home screen instead.
   useEffect(() => {

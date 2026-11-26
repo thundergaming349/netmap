@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
-import { ComingSoon } from "@/components/common/coming-soon";
+import { Suspense } from "react";
+import { IpMapView } from "@/components/ip-map/ip-map-view";
+import { Skeleton } from "@/components/ui/skeleton";
 
-export const metadata: Metadata = { title: "Peta IP" };
+export const metadata: Metadata = { title: "Peta IP per Jalur" };
 
 export default function IpMapPage() {
   return (
-    <ComingSoon
-      title="Peta IP per Jalur"
-      description="Grid 256 alamat per subnet, detail IP, dan cek IP sebelum dipasang."
-      phase="Tahap 1 — Read-only"
-    />
+    <Suspense fallback={<Skeleton className="h-96 w-full" />}>
+      <IpMapView />
+    </Suspense>
   );
 }

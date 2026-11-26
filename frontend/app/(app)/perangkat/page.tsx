@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
-import { ComingSoon } from "@/components/common/coming-soon";
+import { Suspense } from "react";
+import { DevicesView } from "@/components/device/devices-view";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export const metadata: Metadata = { title: "Perangkat" };
 
 export default function DevicesPage() {
   return (
-    <ComingSoon
-      title="Perangkat"
-      description="Inventaris perangkat ber-IP static dan form tambah perangkat."
-      phase="Tahap 1 — Read-only"
-    />
+    <Suspense fallback={<Skeleton className="h-96 w-full" />}>
+      <DevicesView />
+    </Suspense>
   );
 }

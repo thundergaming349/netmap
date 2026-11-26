@@ -11,45 +11,45 @@
 - [ ] Data jalur/VLAN asli dicatat (ganti contoh di [01-konsep.md](01-konsep.md))
 - [x] Stack final: Laravel + PostgreSQL + Next.js (shadcn/ui) — lihat [`../rules/`](../rules/README.md)
 - [ ] Domain `netmap.<domain-kantor>` + DNS static di MikroTik + sertifikat HTTPS (DNS-01)
-- [ ] Project Google Cloud: OAuth client (Web), redirect URI `https://netmap.<domain-kantor>/auth/google/callback`
+- [x] Project Google Cloud: OAuth client (Web), redirect URI terdaftar
 
 ## Tahap 1 — Read-only (inti IPAM)
 
-- [ ] Scaffold project: `backend/` (Laravel), `frontend/` (Next.js + shadcn), `infra/` (docker-compose, Caddy, go2rtc)
-- [ ] Login dengan Google + allowlist email + halaman Pengguna & akses
-- [ ] Skema database + migrasi
-- [ ] Collector: address, pool, lease, arp, interface, route, mangle
-- [ ] Layar **Ringkasan** (data asli)
-- [ ] Layar **Peta IP** + Cek IP sebelum dipasang
-- [ ] Layar **Perangkat** (CRUD di NetMap saja, belum tulis ke MikroTik)
-- [ ] Layar **Route per Jalur** (topologi dari data + input manual switch)
-- [ ] Peran admin / technician / cctv_viewer
-- [ ] Pengaturan: koneksi MikroTik & sinkronisasi
+- [x] Scaffold project: `backend/` (Laravel), `frontend/` (Next.js + shadcn), `infra/` (docker-compose, Caddy, go2rtc)
+- [x] Login dengan Google + allowlist email + halaman Pengguna & akses
+- [x] Skema database + migrasi
+- [x] Collector: address, pool, lease, arp, interface, route, mangle
+- [x] Layar **Ringkasan** (data asli)
+- [x] Layar **Peta IP** + Cek IP sebelum dipasang
+- [x] Layar **Perangkat** (CRUD di NetMap + ekspor/impor CSV)
+- [x] Layar **Route per Jalur** (topologi dari data + trace per perangkat + tabel `/ip route`)
+- [x] Peran admin / technician / cctv_viewer
+- [x] Pengaturan: koneksi MikroTik & sinkronisasi
 
 ## Tahap 2 — Deteksi konflik & notifikasi
 
-- [ ] `arp_history` + scanner (`fping`, `arping -D`)
-- [ ] Rule engine (DUP_IP, RES_MISUSE, REG_MISMATCH, STATIC_IN_POOL, OUT_OF_SUBNET, NEW_DEVICE, CAM_OFFLINE)
-- [ ] Layar **Log Konflik**
-- [ ] Webhook lease-script & netwatch
-- [ ] Notifikasi Telegram
-- [ ] (Opsional) SNMP switch managed → lokasi port + MAC_FLAP
+- [x] `arp_observations` + scanner (`fping`, `arping -D`)
+- [x] Rule engine (DUP_IP, RES_MISUSE, REG_MISMATCH, STATIC_IN_POOL, OUT_OF_SUBNET, NEW_DEVICE, CAM_OFFLINE)
+- [x] Layar **Log Konflik**
+- [x] Webhook lease-script & netwatch
+- [x] Notifikasi Telegram
+- [x] (Opsional) SNMP switch managed → lokasi port + MAC_FLAP
 
 ## Tahap 3 — Live CCTV
 
-- [ ] Container go2rtc
-- [ ] Tabel kamera/NVR + pola RTSP per merek
-- [ ] Layar **Live CCTV** (grid sub-stream, perbesar main-stream, snapshot)
-- [ ] Status kamera (ping + go2rtc) & panel NVR
-- [ ] Peran **Viewer CCTV**
+- [x] Container go2rtc (`infra/docker-compose.yml`)
+- [x] Tabel kamera/NVR + pola RTSP per merek
+- [x] Layar **Live CCTV** (grid sub-stream, perbesar main-stream, snapshot)
+- [x] Status kamera (ping + go2rtc) & panel NVR
+- [x] Peran **Viewer CCTV**
 
 ## Tahap 4 — Aksi tulis ke MikroTik
 
-- [ ] Ganti group user API ke `netmap-rw`
-- [ ] Buat DHCP lease static, ARP static, blokir MAC, restart PoE
-- [ ] Konfirmasi di UI + `audit_log`
-- [ ] Peran **Teknisi**
-- [ ] Backup harian (DB + `/export` MikroTik)
+- [ ] Ganti group user API di router fisik MikroTik ke `netmap-rw`
+- [x] Buat DHCP lease static, ARP static, blokir MAC, restart PoE
+- [x] Konfirmasi di UI + `audit_log`
+- [x] Peran **Teknisi**
+- [x] Backup harian (DB + `/export` MikroTik)
 
 ## Nanti
 
